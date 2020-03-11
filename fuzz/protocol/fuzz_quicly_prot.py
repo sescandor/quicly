@@ -27,11 +27,18 @@ def check_process():
 
 if __name__ == "__main__":
 
-	while(True):	
 		c=rdpcap("packet.pcapng")
 		loaded = c[0][Raw].load
 		new_loaded = mutate(bytes(loaded[0:])) 
 		c[0][Raw].load = new_loaded 
+
+		try:
+			record_mutated = open("mutated_packet", "wb")
+			record_mutated.write(new_loaded)
+			record_mutated.close()
+		except Exception as e:
+			print("Could not write mutated packet data to record file, named: mutated_packet. Error was: " + str(e))
+			sys.exit(0)
 
 		try:
 			sendp(c[0], iface="lo0")
