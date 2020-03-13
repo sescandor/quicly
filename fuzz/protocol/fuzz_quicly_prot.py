@@ -27,6 +27,7 @@ def check_process():
 
 if __name__ == "__main__":
 
+	while(True):
 		c=rdpcap("packet.pcapng")
 		loaded = c[0][Raw].load
 		new_loaded = mutate(bytes(loaded[0:])) 
